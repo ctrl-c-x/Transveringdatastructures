@@ -1,0 +1,93 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// Define the structure for a binary tree node
+struct TreeNode {
+    char data;
+    struct TreeNode* left;
+    struct TreeNode* right;
+};
+
+// Function to create a new tree node
+struct TreeNode* createNode(char data) {
+    struct TreeNode* newNode = (struct TreeNode*)malloc(sizeof(struct TreeNode));
+    newNode->data = data;
+    newNode->left = NULL;
+    newNode->right = NULL;
+    return newNode;
+}
+
+// Preorder Traversal (Root, Left, Right)
+void preorderTraversal(struct TreeNode* root) {
+    if (root == NULL) return;
+    printf("%c ", root->data);
+    preorderTraversal(root->left);
+    preorderTraversal(root->right);
+}
+
+// Inorder Traversal (Left, Root, Right)
+void inorderTraversal(struct TreeNode* root) {
+    if (root == NULL) return;
+    inorderTraversal(root->left);
+    printf("%c ", root->data);
+    inorderTraversal(root->right);
+}
+
+// Postorder Traversal (Left, Right, Root)
+void postorderTraversal(struct TreeNode* root) {
+    if (root == NULL) return;
+    postorderTraversal(root->left);
+    postorderTraversal(root->right);
+    printf("%c ", root->data);
+}
+
+// Level Order Traversal (Breadth-First)
+void levelOrderTraversal(struct TreeNode* root) {
+    if (root == NULL) return;
+    
+    struct TreeNode* queue[100];
+    int front = 0, rear = 0;
+    
+    queue[rear++] = root;
+    
+    while (front < rear) {
+        struct TreeNode* currentNode = queue[front++];
+        
+        printf("%c ", currentNode->data);
+        
+        if (currentNode->left != NULL) queue[rear++] = currentNode->left;
+        if (currentNode->right != NULL) queue[rear++] = currentNode->right;
+    }
+}
+
+int main() {
+    // Creating the binary tree
+    struct TreeNode* root = createNode('a');
+    root->left = createNode('b');
+    root->right = createNode('c');
+    root->left->left = createNode('d');
+    root->left->right = createNode('e');
+    root->right->left = createNode('f');
+    root->right->right = createNode('g');
+    root->left->left->left = createNode('h');
+    root->left->left->right = createNode('i');
+
+    // Perform different traversals
+    printf("Preorder Traversal: ");
+    preorderTraversal(root);
+    printf("\n");
+
+    printf("Inorder Traversal: ");
+    inorderTraversal(root);
+    printf("\n");
+
+    printf("Postorder Traversal: ");
+    postorderTraversal(root);
+    printf("\n");
+
+    printf("Level Order Traversal: ");
+    levelOrderTraversal(root);
+    printf("\n");
+
+    return 0;
+}
